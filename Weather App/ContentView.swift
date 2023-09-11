@@ -5,11 +5,15 @@
 //  Created by Jack Turner on 9/10/23.
 //
 import SwiftUI
+import FirebaseCore
+import FirebaseFirestore
+
 
 struct ContentView: View {
     @State private var location = ""
     @State private var weatherDescription = ""
     @State private var temperature = ""
+    let db = Firestore.firestore()
 
     var body: some View {
         VStack {
@@ -64,6 +68,7 @@ struct ContentView: View {
                             weatherDescription = weatherData.weather.first?.description ?? "N/A"
                             tempLiteral = ((weatherData.main.temp - 273.15) * 1.8 + 32).rounded()// Convert to Farenheit
                             temperature = truncateTemp(tempLiteral)
+                            storeWeather(weatherData)
                         }
                     } catch {
                         print("Error decoding JSON: \(error)")
@@ -74,8 +79,16 @@ struct ContentView: View {
     }
     
     func truncateTemp(_ temp: Double) -> String {
-        var tempVar = String(format: "%g", temp)
+        let tempVar = String(format: "%g", temp)
         return tempVar
+    }
+    
+    func storeWeather(_ weather: WeatherData) {
+        let data: [String: Any] = [
+            "desciption": weather.weather.description,
+            "temperature": truncateTemp(((weather.main.temp - 273.15) * 1.8 + 32).rounded())
+        ]
+        db.collection("Weather").addDocument(data: data)
     }
 }
 
