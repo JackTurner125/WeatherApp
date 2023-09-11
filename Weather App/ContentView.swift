@@ -9,7 +9,7 @@ import SwiftUI
 struct ContentView: View {
     @State private var location = ""
     @State private var weatherDescription = ""
-    @State private var temperature = 0.0
+    @State private var temperature = ""
 
     var body: some View {
         VStack {
@@ -38,7 +38,7 @@ struct ContentView: View {
                 Text("Weather: \(weatherDescription)")
                     .padding()
 
-                Text("Temperature: \(temperature)°C")
+                Text("Temperature: \(temperature)°F")
                     .padding()
             }
 
@@ -53,6 +53,8 @@ struct ContentView: View {
 
         let apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=\(location)&appid=\(apiKey)"
         
+        var tempLiteral = 0.0
+        
         if let url = URL(string: apiUrl) {
             URLSession.shared.dataTask(with: url) { data, response, error in
                 if let data = data {
@@ -60,7 +62,8 @@ struct ContentView: View {
                         let weatherData = try JSONDecoder().decode(WeatherData.self, from: data)
                         DispatchQueue.main.async {
                             weatherDescription = weatherData.weather.first?.description ?? "N/A"
-                            temperature = weatherData.main.temp - 273.15 // Convert to Celsius
+                            tempLiteral = ((weatherData.main.temp - 273.15) * 1.8 + 32).rounded()// Convert to Farenheit
+                            temperature = truncateTemp(tempLiteral)
                         }
                     } catch {
                         print("Error decoding JSON: \(error)")
@@ -68,6 +71,11 @@ struct ContentView: View {
                 }
             }.resume()
         }
+    }
+    
+    func truncateTemp(_ temp: Double) -> String {
+        var tempVar = String(format: "%g", temp)
+        return tempVar
     }
 }
 
