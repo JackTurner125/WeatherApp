@@ -17,6 +17,7 @@
 		175443D52AAFCDDE004878C3 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 175443D42AAFCDDE004878C3 /* FirebaseFirestore */; };
 		175443D72AAFCDDE004878C3 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 175443D62AAFCDDE004878C3 /* FirebaseFirestoreSwift */; };
 		175443E02AB0C45B004878C3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 175443DF2AB0C45B004878C3 /* GoogleService-Info.plist */; };
+		175443E22AB0ECC0004878C3 /* LocationManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175443E12AB0ECC0004878C3 /* LocationManagerDelegate.swift */; };
 		17C58BC42AAE23CC003D25A9 /* Weather_AppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C58BC32AAE23CC003D25A9 /* Weather_AppApp.swift */; };
 		17C58BC62AAE23CC003D25A9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C58BC52AAE23CC003D25A9 /* ContentView.swift */; };
 		17C58BC82AAE23CE003D25A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 17C58BC72AAE23CE003D25A9 /* Assets.xcassets */; };
@@ -45,6 +46,7 @@
 
 /* Begin PBXFileReference section */
 		175443DF2AB0C45B004878C3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Weather App/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		175443E12AB0ECC0004878C3 /* LocationManagerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManagerDelegate.swift; sourceTree = "<group>"; };
 		17C58BC02AAE23CC003D25A9 /* Weather App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Weather App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		17C58BC32AAE23CC003D25A9 /* Weather_AppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather_AppApp.swift; sourceTree = "<group>"; };
 		17C58BC52AAE23CC003D25A9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 				17C58BC52AAE23CC003D25A9 /* ContentView.swift */,
 				17C58BC72AAE23CE003D25A9 /* Assets.xcassets */,
 				17C58BC92AAE23CE003D25A9 /* Preview Content */,
+				175443E12AB0ECC0004878C3 /* LocationManagerDelegate.swift */,
 			);
 			path = "Weather App";
 			sourceTree = "<group>";
@@ -295,6 +298,7 @@
 			files = (
 				17C58BC62AAE23CC003D25A9 /* ContentView.swift in Sources */,
 				17C58BC42AAE23CC003D25A9 /* Weather_AppApp.swift in Sources */,
+				175443E22AB0ECC0004878C3 /* LocationManagerDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -458,8 +462,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Weather App/Preview Content\"";
+				DEVELOPMENT_TEAM = 35X43N72RU;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "In order to use the location feature, please allow the app to use access location.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -471,7 +477,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Gatech-Mobile-App.Weather-App";
+				PRODUCT_BUNDLE_IDENTIFIER = "Gatech-Mobile-App-Services.Weather-App";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -487,8 +493,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Weather App/Preview Content\"";
+				DEVELOPMENT_TEAM = 35X43N72RU;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "In order to use the location feature, please allow the app to use access location.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -500,7 +508,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Gatech-Mobile-App.Weather-App";
+				PRODUCT_BUNDLE_IDENTIFIER = "Gatech-Mobile-App-Services.Weather-App";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

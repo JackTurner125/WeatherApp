@@ -7,14 +7,16 @@
 import SwiftUI
 import FirebaseCore
 import FirebaseFirestore
+import CoreLocation
 
 
 struct ContentView: View {
     @State private var location = ""
     @State private var weatherDescription = ""
     @State private var temperature = ""
+    @State var locationDataManager = LocationDataManager()
     let db = Firestore.firestore()
-
+    
     var body: some View {
         ZStack {
             LinearGradient(colors: [.blue, .white],
@@ -22,6 +24,7 @@ struct ContentView: View {
                            endPoint: .bottomTrailing)
             
             VStack {
+                
                 Image(systemName: "cloud.sun.fill")
                     .resizable()
                     .frame(width: 200, height: 150)
@@ -33,8 +36,8 @@ struct ContentView: View {
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding(.horizontal, 20)
                 
+                
                 Button(action: {
-                    // Call a function to fetch weather data based on the location
                     fetchWeather()
                 }) {
                     Text("Get Weather")
@@ -42,7 +45,29 @@ struct ContentView: View {
                         .background(Color.blue)
                         .foregroundColor(.white)
                         .cornerRadius(10)
-                }.padding(.top, 250)
+                }.padding(.top, 10)
+                
+                Text("Or")
+                    .bold()
+                    .font(.system(size: 32))
+                    .padding(.vertical, 10)
+                    .colorInvert()
+                
+                Button(action: {
+                    if locationDataManager.locationManager.authorizationStatus == .authorizedWhenInUse {
+                        if let lat = locationDataManager.locationManager.location?.coordinate.latitude, let long = locationDataManager.locationManager.location?.coordinate.longitude {
+                            fetchUserWeather(latitude: lat, longitude: long)
+                        }
+                    } else {
+                        print("Location not available")
+                    }
+                }) {
+                    Text("Use My Location")
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }.padding(.top, 20)
                 
                 if !weatherDescription.isEmpty {
                     Text("Weather: \(weatherDescription)")
@@ -58,11 +83,37 @@ struct ContentView: View {
         }
         .ignoresSafeArea()
     }
-
+    
+    // Function to fetch weather data based on the user's location
+    func fetchUserWeather(latitude: Double, longitude: Double) {
+        let apiKey = "318551a066f8d29bfbc017c7b7313101"
+        let apiUrl = "https://api.openweathermap.org/data/2.5/weather?lat=\(latitude)&lon=\(longitude)&appid=\(apiKey)"
+        
+        var tempLiteral = 0.0
+        
+        if let url = URL(string: apiUrl) {
+            URLSession.shared.dataTask(with: url) { data, response, error in
+                if let data = data {
+                    do {
+                        let weatherData = try JSONDecoder().decode(WeatherData.self, from: data)
+                        DispatchQueue.main.async {
+                            weatherDescription = weatherData.weather.first?.description ?? "N/A"
+                            tempLiteral = ((weatherData.main.temp - 273.15) * 1.8 + 32).rounded() // Convert to Fahrenheit
+                            temperature = truncateTemp(tempLiteral)
+                            storeWeather(weatherData)
+                        }
+                    } catch {
+                        print("Error decoding JSON: \(error)")
+                    }
+                }
+            }.resume()
+        }
+    }
+    
     // Function to fetch weather data based on the location
     func fetchWeather() {
         let apiKey = "318551a066f8d29bfbc017c7b7313101"
-
+        
         let apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=\(location)&appid=\(apiKey)"
         
         var tempLiteral = 0.0
@@ -99,6 +150,7 @@ struct ContentView: View {
         db.collection("Weather").addDocument(data: data)
     }
 }
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
