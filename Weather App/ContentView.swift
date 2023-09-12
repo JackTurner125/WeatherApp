@@ -16,39 +16,47 @@ struct ContentView: View {
     let db = Firestore.firestore()
 
     var body: some View {
-        VStack {
-            Image(systemName: "cloud.sun.fill")
-                .resizable()
-                .frame(width: 200, height: 150)
-                .foregroundColor(.blue)
-                .padding(.bottom, 20)
-
-            TextField("Enter location", text: $location)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding(.horizontal, 20)
-
-            Button(action: {
-                // Call a function to fetch weather data based on the location
-                fetchWeather()
-            }) {
-                Text("Get Weather")
-                    .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-            }.padding(.top, 250)
-
-            if !weatherDescription.isEmpty {
-                Text("Weather: \(weatherDescription)")
-                    .padding()
-
-                Text("Temperature: \(temperature)°F")
-                    .padding()
+        ZStack {
+            LinearGradient(colors: [.blue, .white],
+                           startPoint: .topLeading,
+                           endPoint: .bottomTrailing)
+            
+            VStack {
+                Image(systemName: "cloud.sun.fill")
+                    .resizable()
+                    .frame(width: 200, height: 150)
+                    .symbolRenderingMode(.multicolor)
+                    .padding(.bottom, 20)
+                    .padding(.top, 50)
+                
+                TextField("Enter location", text: $location)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding(.horizontal, 20)
+                
+                Button(action: {
+                    // Call a function to fetch weather data based on the location
+                    fetchWeather()
+                }) {
+                    Text("Get Weather")
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }.padding(.top, 250)
+                
+                if !weatherDescription.isEmpty {
+                    Text("Weather: \(weatherDescription)")
+                        .padding()
+                    
+                    Text("Temperature: \(temperature)°F")
+                        .padding()
+                }
+                
+                Spacer()
             }
-
-            Spacer()
+            .padding()
         }
-        .padding()
+        .ignoresSafeArea()
     }
 
     // Function to fetch weather data based on the location
